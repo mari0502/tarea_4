@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizaciones D3.js</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .container {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            pointer-events: none;
+            font-size: 14px;
+            z-index: 10;
+        }
+
+        .button-container {
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #FF7F3E;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #FFDA78;
+        }
+
+    </style>
+    
+    <script>
+            function loadScript(scriptName){
+                // Eliminar el script previamente cargado, si existe
+                var existingScript = document.getElementById('dynamicScript');
+                if (existingScript) {
+                    console.log('QUITAR ACTUAL SCRIPT');
+                    existingScript.remove();
+                }
+            
+                
+                // Crear y cargar el nuevo script
+                var script = document.createElement('script');
+                script.id = 'dynamicScript';
+                script.src = scriptName;
+                script.type = 'text/javascript';
+                script.onload = function() {
+                    console.log(scriptName + ' cargado');
+                };
+
+                document.body.appendChild(script);
+            }
+
+            function clearSvg(containerId) {
+                d3.select(`#${containerId} svg`).remove();
+            }
+
+    </script>
+</head>
+
+<body>
+
+    <div id="map">
+        <h1>Mapa USA</h1>
+
+    </div>
+
+    <div class="button-container">
+        <h1>Menú de Visualizaciones</h1>
+        <button onclick="loadScript('script_distritos.js')">Distritos</button>
+        <button onclick="loadScript('script_flare.js')">Flare Classes</button>
+        <button onclick="loadScript('script_module.js')">Módulos Vue</button>
+        <button onclick="clearSvg('treemap-container'); clearSvg('radial-layout-container'); clearSvg('partition-layout-container'); clearSvg('circle-packing-layout-container')">Limpiar</button>
+    </div>
+
+    <div id="treemap-container" class="container">
+        <h2>Treemap Squarify</h2>
+    </div>
+
+    <div id="radial-layout-container" class="container">
+        <h2>Radial Layout</h2>
+    </div>
+
+    <div id="partition-layout-container" class="container">
+        <h2>Partition Layout</h2>
+    </div>
+
+    <div id="circle-packing-layout-container" class="container">
+        <h2>Circle Packing Layout</h2>
+    </div>
+
+    <!-- Si decides incluir Sunburst Layout -->
+    <!-- <div id="sunburst-layout-container" class="container">
+        <h2>Sunburst Layout</h2>
+    </div> -->
+
+</body>
+
+</html>

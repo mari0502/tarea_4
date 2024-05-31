@@ -1,0 +1,16 @@
+{
+  "name": "tarea_4",
+  "version": "1.0.0",
+  "description": "Funciones de D3.js en Netlify",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "netlify dev"
+  },
+  "keywords": ["netlify", "d3", "map", "USA"],
+  "author": "Mariana Fernández",
+  "license": "ISC",
+  "dependencies": {
+    "netlify-cli": "17.25.0"
+  }
+}
