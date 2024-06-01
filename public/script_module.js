@@ -244,8 +244,8 @@ function createCirclePackingLayout(hierarchicalData) {
     svg.selectAll("circle")
         .data(root.descendants().slice(1))
         .enter().append("circle")
-        .attr("cx", d => d.x)
-        .attr("cy", d => d.y)
+        .attr("cx", d => d.x - width / 2 + 1) // Ajustar la posición de los círculos
+        .attr("cy", d => d.y - height / 2 + 1) // Ajustar la posición de los círculos
         .attr("r", d => d.r)
         .attr("fill", d => color(d.data.name))
         .attr("fill-opacity", 0.7)

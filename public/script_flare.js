@@ -76,34 +76,17 @@ function createTreemap(hierarchicalData) {
     // Calcular el layout del treemap
     treemap(root);
     
-    // Dibujar los rectángulos del treemap
-    svg.selectAll("rect")
-        .data(root.leaves())
-        .enter().append("rect")
-        .attr("x", d => d.x0)
-        .attr("y", d => d.y0)
-        .attr("width", d => d.x1 - d.x0)
-        .attr("height", d => d.y1 - d.y0)
-        .attr("fill", (d, i) => color(i)) // Color basado en el índice
-        .attr("stroke", "black")
-        .on("mouseover", function(d) {
-            tooltip.style("visibility", "visible")
-                .html(`Name: ${d.name}<br>Value: ${d.value}`);
-        })
-        .on("mousemove", function(event) {
-            tooltip.style("top", (event.pageY - 10) + "px")
-                .style("left", (event.pageX + 10) + "px");
-        })
-        .on("mouseout", function() {
-            tooltip.style("visibility", "hidden");
-        });
-    
-
-    const tooltip = d3.select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("visibility", "hidden");
-        
+   // Dibujar los rectángulos del treemap
+   svg.selectAll("rect")
+   .data(root.leaves())
+   .enter().append("rect")
+   .attr("x", d => d.x0)
+   .attr("y", d => d.y0)
+   .attr("width", d => d.x1 - d.x0)
+   .attr("height", d => d.y1 - d.y0)
+   .attr("fill", (d, i) => color(i)) // Color basado en el índice
+   .attr("stroke", "black");
+            
     // Agregar etiquetas de texto
     svg.selectAll("text")
         .data(root.leaves())
@@ -113,6 +96,8 @@ function createTreemap(hierarchicalData) {
         .attr("fill", "black")
         .text(d => d.data.name); // Mostrar el nombre del nodo
 }
+
+
 
 function createRadialLayout(hierarchicalData) {
     console.log('RADIAL LAYOUT cargado correctamente');
@@ -217,13 +202,12 @@ function createPartitionLayout(hierarchicalData) {
         .text(d => d.data.name);
 }
 
-
 function createCirclePackingLayout(hierarchicalData) {
     console.log('CIRCLE PACKING LAYOUT cargado correctamente');
 
     // Configuración del tamaño del contenedor
-    const width = 600;
-    const height = 600;
+    const width = 800;
+    const height = 800;
 
     // Crear el contenedor SVG
     const svg = d3.select("#circle-packing-layout-container")
@@ -235,7 +219,7 @@ function createCirclePackingLayout(hierarchicalData) {
 
     // Crear el layout de Circle Packing
     const pack = data => d3.pack()
-        .size([width, height])
+        .size([width - 2, height - 2]) // Restar un pequeño margen para evitar que los círculos se corten
         .padding(3)
         (d3.hierarchy(data)
             .sum(d => d.value)
@@ -251,31 +235,20 @@ function createCirclePackingLayout(hierarchicalData) {
     svg.selectAll("circle")
         .data(root.descendants().slice(1))
         .enter().append("circle")
-        .attr("cx", d => d.x)
-        .attr("cy", d => d.y)
+        .attr("cx", d => d.x - width / 2 + 1) // Ajustar la posición de los círculos
+        .attr("cy", d => d.y - height / 2 + 1) // Ajustar la posición de los círculos
         .attr("r", d => d.r)
         .attr("fill", d => color(d.data.name))
         .attr("fill-opacity", 0.7)
         .attr("stroke", "black");
+
+    // Agregar etiquetas de texto a los círculos
+    svg.selectAll("text")
+        .data(root.descendants().slice(1))
+        .enter().append("text")
+        .attr("x", d => d.x - width / 2 + 1) // Ajustar la posición del texto
+        .attr("y", d => d.y - height / 2 + 1) // Ajustar la posición del texto
+        .style("text-anchor", "middle") // Centrar el texto
+        .text(d => d.data.name); // Mostrar el nombre del nodo
 }
 
-
-/*
-    // Definir el tooltip
-    const tooltip = d3.select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("visibility", "hidden");
-
-    rect.on("mouseover", function(d) {
-        tooltip.style("visibility", "visible")
-            .html("Valor: " + 100);
-    })
-    .on("mousemove", function(event) {
-        tooltip.style("top", (event.pageY - 10) + "px")
-            .style("left", (event.pageX + 10) + "px");
-    })
-    .on("mouseout", function() {
-        tooltip.style("visibility", "hidden");
-    });
-*/
